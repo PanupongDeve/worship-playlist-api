@@ -1,7 +1,7 @@
 import BaseModel from './BaseModel'
 
 import { User } from '../entities/User'
-import { AppDataSource } from '../dataSource'
+import { AppDataSource } from '../lib/mysql/typeorm'
 
 class UserModel extends BaseModel {
 
