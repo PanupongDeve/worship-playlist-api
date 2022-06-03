@@ -2,6 +2,9 @@ import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { Token } from './JWTInterface'
 
+
+const TOKEN_FIVE_MINUTE: number = Math.floor(Date.now() / 1000) + (60 * 60 * 1)
+
 class TokenImp implements Token {
     private static instance: Token
     private salt: string = 'p@sSw0rd'
@@ -25,7 +28,7 @@ class TokenImp implements Token {
 
     generate(payload: string | object | Buffer) {
         return jwt.sign({
-            exp: Math.floor(Date.now() / 1000) + (60 * 60 * 1),
+            exp: TOKEN_FIVE_MINUTE,
             payload
         }, this.salt)
     }
