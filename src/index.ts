@@ -2,7 +2,7 @@
 import fastify from 'fastify'
 import helmet from '@fastify/helmet'
 import { authController } from './controller/AuthController'
-import { AppDataSource }  from './dataSource'
+import { AppDataSource }  from './lib/mysql/typeorm'
 
 import { authMiddleware } from './handlers/authMiddleware'
 
