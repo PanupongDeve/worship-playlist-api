@@ -1,8 +1,7 @@
 // @ts-nocheck
 import fastify from 'fastify'
 import helmet from '@fastify/helmet'
-import ExampleController from './controller/ExampleController'
-import UserController from './controller/UserController'
+import { authController } from './controller/AuthController'
 import { AppDataSource }  from './dataSource'
 
 import { authMiddleware } from './handlers/authMiddleware'
@@ -12,15 +11,15 @@ AppDataSource.initialize()
         // here you can start to work with your database
         const server = fastify()
 
-        const exampleController = ExampleController.getInstance()
-        const userController = UserController.getInstance()
-
+        
         server.register(
           helmet
         )
         
-        server.get('/api/authed', { preHandler: [authMiddleware]}, exampleController.get)       
-        server.get('/api/v1/user', userController.get)
+        // server.get('/api/authed', { preHandler: [authMiddleware]}, authController.grant)       
+        server.post('/api/v1/auth/grant', authController.grant)
+        server.post('/api/v1/auth/signup', authController.signup)
+        server.post('/api/v1/auth/refreshToken', authController.refreshToken)
 
 
         server.listen(8080, (err, address) => {
