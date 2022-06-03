@@ -1,7 +1,11 @@
+// @ts-nocheck
 import fastify from 'fastify'
+import helmet from '@fastify/helmet'
 import ExampleController from './controller/ExampleController'
 import UserController from './controller/UserController'
 import { AppDataSource }  from './dataSource'
+
+import { authMiddleware } from './handlers/authMiddleware'
 
 AppDataSource.initialize()
     .then(() => {
@@ -11,7 +15,11 @@ AppDataSource.initialize()
         const exampleController = ExampleController.getInstance()
         const userController = UserController.getInstance()
 
-        server.get('/ping', exampleController.get)
+        server.register(
+          helmet
+        )
+        
+        server.get('/api/authed', { preHandler: [authMiddleware]}, exampleController.get)       
         server.get('/api/v1/user', userController.get)
 
 
